@@ -13,6 +13,7 @@ const timer = document.getElementById("timer");
 const timeLeftDisplay = document.getElementById("timeLeft");
 const startBtn = document.getElementById("startBtn");
 
+
 target.style.pointerEvents = "none"; // disable tap sebelum mulai
 
 function startChallenge() {
@@ -37,6 +38,17 @@ function startChallenge() {
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       target.style.pointerEvents = "none";
+      const telegram = window.Telegram.WebApp;
+const user = telegram.initDataUnsafe.user;
+
+const dataToSend = {
+  telegram_id: user.id,
+  username: user.username,
+  score: score,
+  level: level - 1
+};
+
+telegram.sendData(JSON.stringify(dataToSend));  // kirim balik ke bot
 
       if (score >= tapTarget) {
         level++;
